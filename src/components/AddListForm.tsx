@@ -1,16 +1,36 @@
-import React, { useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
+import TextField from "@mui/material/TextField";
+import { Button } from "@mui/material";
 
-const AddListForm: React.FC<IPeopleProps> = ({
+const AddListForm: React.FC<IListProps> = ({
   people,
   setPeople,
+  editData,
 }): JSX.Element => {
-  const [input, setInput] = useState<IPeopleState<number>>({
+  const defaultFormData = {
     name: "",
     age: 0,
     address: "",
     key: "",
     status: false,
-  });
+  };
+  const [input, setInput] = useState<IPeopleState<number>>(defaultFormData);
+
+  const handleEditData = useCallback(() => {
+    if (Object.keys(editData).length !== 0) {
+      setInput(editData);
+      const updatedPeople = people.filter(
+        (person) => person.key !== editData.key
+      );
+      setPeople(updatedPeople);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [editData]);
+
+  useEffect(() => {
+    handleEditData();
+  }, [handleEditData]);
+
   const changeHandler = (
     e:
       | React.ChangeEvent<HTMLInputElement>
@@ -34,42 +54,42 @@ const AddListForm: React.FC<IPeopleProps> = ({
         status: false,
       },
     ]);
-    setInput({
-      name: "",
-      age: 0,
-      address: "",
-      key: "",
-      status: false,
-    });
+    setInput(defaultFormData);
   };
+
   return (
     <div>
       <h3>Add To List</h3>
       <form>
-        <input
-          onChange={changeHandler}
-          type="text"
+        <TextField
+          label="Name"
           name="name"
-          placeholder="Enter name"
-          value={input.name}
+          variant="standard"
+          onChange={changeHandler}
+          margin="dense"
+          value={input.name || ""}
         />
         <br />
-        <input
-          onChange={changeHandler}
+        <TextField
           type="number"
-          name="age"
-          placeholder="Enter age"
-          value={input.age}
-        />
-        <br />
-        <textarea
+          variant="standard"
           onChange={changeHandler}
-          name="address"
-          placeholder="Enter address"
-          value={input.address}
+          margin="dense"
+          name="age"
+          label="Age"
+          value={input.age || ""}
         />
         <br />
-        <input type="button" value="Add" onClick={clickHandler} />
+        <TextField
+          variant="standard"
+          onChange={changeHandler}
+          margin="dense"
+          name="address"
+          label="Address"
+          value={input.address || ""}
+        />
+        <br />
+        <Button variant="contained" className="mt-4" onClick={clickHandler}>Add</Button>
       </form>
     </div>
   );

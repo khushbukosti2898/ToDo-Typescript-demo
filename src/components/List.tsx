@@ -1,5 +1,4 @@
 import React from "react";
-import Button from "@mui/material/Button";
 import DeleteIcon from "@mui/icons-material/Delete";
 import IconButton from "@mui/material/IconButton";
 import Fingerprint from "@mui/icons-material/Fingerprint";
@@ -8,8 +7,15 @@ import FavoriteBorder from "@mui/icons-material/FavoriteBorder";
 import Favorite from "@mui/icons-material/Favorite";
 import BookmarkBorderIcon from "@mui/icons-material/BookmarkBorder";
 import BookmarkIcon from "@mui/icons-material/Bookmark";
+import Edit from "@mui/icons-material/Edit";
+import CheckBoxIcon from "@mui/icons-material/CheckBox";
+import CheckBoxOutlineBlankIcon from "@mui/icons-material/CheckBoxOutlineBlank";
 
-const List: React.FC<IPeopleProps> = ({ people, setPeople }): JSX.Element => {
+const List: React.FC<IPeopleProps> = ({
+  people,
+  setPeople,
+  handleEdit,
+}): JSX.Element => {
   const deleteItem = (key: string) => {
     const updatedPeople = people.filter((person) => person.key !== key);
     setPeople(updatedPeople);
@@ -28,6 +34,10 @@ const List: React.FC<IPeopleProps> = ({ people, setPeople }): JSX.Element => {
     setPeople(updatedPeople);
   };
 
+  const handleEditData = (data: React.MouseEvent<any, MouseEvent>) => {
+    handleEdit(data);
+  };
+
   const renderList = (): JSX.Element[] => {
     const label = { inputProps: { "aria-label": "Checkbox demo" } };
     return people.map((person) => {
@@ -35,22 +45,18 @@ const List: React.FC<IPeopleProps> = ({ people, setPeople }): JSX.Element => {
         <li key={person.key}>
           <p className={`${person.status && "line-through"}`}>
             Name: {person.name}, Age: {person.age}, Address: {person.address}
+            <IconButton placeholder="Edit" onClick={() => handleEditData(person)}>
+              <Edit />
+            </IconButton>
+            <IconButton onClick={() => deleteItem(person.key)}>
+              <DeleteIcon />
+            </IconButton>
+            <IconButton onClick={() => checkItem(person.key)}>
+              {person.status ? <CheckBoxIcon /> : <CheckBoxOutlineBlankIcon />}
+            </IconButton>
           </p>
-          <Button
-            variant="contained"
-            className="cursor-pointer mx-1"
-            onClick={() => deleteItem(person.key)}
-            startIcon={<DeleteIcon />}
-          >
-            Delete
-          </Button>
-          <Button
-            variant="contained"
-            className="cursor-pointer"
-            onClick={() => checkItem(person.key)}
-          >{`${person.status ? "Clear" : "Check"}`}</Button>
 
-          {/* <IconButton aria-label="fingerprint" color="secondary">
+          <IconButton aria-label="fingerprint" color="secondary">
             <Fingerprint />
           </IconButton>
           <Checkbox
@@ -62,7 +68,7 @@ const List: React.FC<IPeopleProps> = ({ people, setPeople }): JSX.Element => {
             {...label}
             icon={<BookmarkBorderIcon />}
             checkedIcon={<BookmarkIcon />}
-          /> */}
+          />
 
           <hr />
         </li>
@@ -70,7 +76,7 @@ const List: React.FC<IPeopleProps> = ({ people, setPeople }): JSX.Element => {
     });
   };
 
-  return <ul>{renderList()}</ul>;
+  return <ul className="p-0">{renderList()}</ul>;
 };
 
 export default List;

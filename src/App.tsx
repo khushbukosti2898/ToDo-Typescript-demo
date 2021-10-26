@@ -5,6 +5,7 @@ import AddListForm from "./components/AddListForm";
 import StaticList from "./components/StaticList";
 
 const App: React.FC = (): JSX.Element => {
+  const [editData, setEditData] = useState<object>({});
   const [list, setList] = useState<IPeopleState<number>[]>([
     {
       name: "Khushbu",
@@ -25,10 +26,14 @@ const App: React.FC = (): JSX.Element => {
     { name: "Hulk" },
   ];
 
+  const handleEdit = (data: object): void => {
+    setEditData(data);
+  };
+
   return (
     <div className="App">
-      <List people={list} setPeople={setList} />
-      <AddListForm people={list} setPeople={setList} />
+      <List people={list} setPeople={setList} handleEdit={handleEdit} />
+      <AddListForm people={list} setPeople={setList} editData={editData} />
       <StaticList data={staticDataList} />
     </div>
   );

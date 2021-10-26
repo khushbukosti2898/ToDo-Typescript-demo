@@ -7,16 +7,19 @@ interface IPeopleState<T> {
   createdAt?: string
   updatedAt?: string
 }
-
 interface IPeopleProps {
   people: IPeopleState[]
   setPeople: React.Dispatch<React.SetStateAction<IPeopleState[]>>
+  handleEdit: React.MouseEventHandler<IPeopleState>
 }
-
+interface IListProps{
+  people: IPeopleState[]
+  setPeople: React.Dispatch<React.SetStateAction<IPeopleState[]>>
+  editData: IPeopleState
+}
 interface IStaticList {
   name: string
 }
-
 interface IStaticListProps {
   data: IStaticList[]
 }

@@ -48,3 +48,7 @@
 .cursor-pointer:hover{
     /* color: blue; */
 }
+
+li{
+  list-style: none;
+}
