@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 
-
-const AddListForm: React.FC<IPeopleProps> = ({ people, setPeople }) => {
-  const [input, setInput] = useState<IPeopleState>({
+const AddListForm: React.FC<IPeopleProps> = ({
+  people,
+  setPeople,
+}): JSX.Element => {
+  const [input, setInput] = useState<IPeopleState<number>>({
     name: "",
     age: 0,
     address: "",
@@ -40,7 +42,6 @@ const AddListForm: React.FC<IPeopleProps> = ({ people, setPeople }) => {
       status: false,
     });
   };
-
   return (
     <div>
       <h3>Add To List</h3>
